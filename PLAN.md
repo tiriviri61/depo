@@ -1,7 +1,7 @@
 # Depo Sistemi — Ana Plan
 
 > MarketFlow'a entegre, ortak stoklu, barkod ve el terminaliyle çalışan depo yönetim sistemi.
-> Durum: **plan — kullanıcı onayı ve kararlar bekleniyor** ([docs/08](docs/08-kararlar.md)).
+> Durum: **Kararlar onaylandı (30 Eyl 2026) — Faz 0 başladı.** Açık bilgi maddeleri: [docs/08](docs/08-kararlar.md).
 > Tarih: 30 Eylül 2026.
 
 ---
