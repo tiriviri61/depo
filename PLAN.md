@@ -1,7 +1,9 @@
 # Depo Sistemi — Ana Plan
 
 > MarketFlow'a entegre, ortak stoklu, barkod ve el terminaliyle çalışan depo yönetim sistemi.
-> Durum: **Kararlar onaylandı (30 Eyl 2026) — Faz 0 başladı.** Açık bilgi maddeleri: [docs/08](docs/08-kararlar.md).
+> Durum: **Kararlar onaylandı (30 Eyl 2026). Faz 0 kodu yazıldı (2 Eki), canlıya alma onayı bekliyor.**
+> Açık bilgi maddeleri: [docs/08](docs/08-kararlar.md). Faz 0 raporu MarketFlow deposunda
+> (`docs/depo/FAZ0.md`).
 > Tarih: 30 Eylül 2026.
 
 ---
@@ -105,8 +107,9 @@ Faz 1 ile Faz 4'ün ekran tasarımı paralel yürüyebilir. Faz 5 ve 6 birbirine
 ## 6. Hemen başlamadan önce
 
 1. **Kararlar:** [docs/08](docs/08-kararlar.md) — özellikle A1-A3, A5, B1, B5-B7, C1, F1-F2.
-2. **Acil risk:** PTT AVM'nin kullanıcı adı/şifreli API'si **Ekim sonunda** kapanıyor.
-   O gün PTT siparişleri MarketFlow'a gelmez, stok da düşmez. Depo planından bağımsız,
-   ilk yapılacak iş.
+2. **Yakın risk:** PTT AVM'nin yeni API anahtarı yapısı **Ekim sonunda** devreye giriyor;
+   kullanıcı adı/şifreli erişim bir süre daha çalışacak, kapanış tarihi duyurulacak.
+   Kapandığı gün PTT siparişleri MarketFlow'a gelmez, stok da düşmez. Geçiş Faz 0'da
+   hazırlandı; PTT'nin teknik belgesi ve entegratör anahtarı bekleniyor.
 3. **Açılış sayımı için gün:** sistem ancak sayılmış stokla canlıya alınabilir.
 4. **Donanım bilgisi:** el terminali ve etiket yazıcısı modeli.

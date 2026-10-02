@@ -3,7 +3,7 @@
 > Uygulamaya başlamadan önce verilmesi gereken kararlar. Her birinde önerilen seçenek
 > **kalın** yazılı. **30 Eylül 2026: kullanıcı önerilen seçeneklerin tamamını onayladı.**
 > Yalnız bilgi gerektiren maddeler (donanım, sayım tarihi, ekip) açık. Onaylanan iş
-> kuralları MarketFlow `docs/VERI-KURALLARI.md` §18'e işlendi.
+> kuralları MarketFlow `docs/VERI-KURALLARI.md` §18'e işlendi (2 Eki 2026).
 
 ## A. İş kuralları (planın şeklini değiştirir)
 
@@ -59,4 +59,4 @@
 | # | Soru | Seçenekler | Durum |
 |---|---|---|---|
 | F1 | Kod nerede yazılsın? | **MarketFlow deposunda (web + mobil + veritabanı birlikte; dağıtım hattı hazır). Bu depo plan ve karar kaydı** · Bu depoda ayrı uygulama | ✅ Onaylandı (30 Eyl) |
-| F2 | Bu depo (`depo`) **herkese açık**. Gizli yapılsın mı? | **Evet, gizli yapılsın** (iş süreci ve mimari ayrıntısı içeriyor) · Açık kalsın | ✅ Onaylandı (30 Eyl) |
+| F2 | Bu depo (`depo`) **herkese açık**. Gizli yapılsın mı? | **Evet, gizli yapılsın** (iş süreci ve mimari ayrıntısı içeriyor) · Açık kalsın | ✅ Onaylandı (30 Eyl) — ⏳ GitHub ayarından kullanıcı yapacak (Settings → Change visibility) |

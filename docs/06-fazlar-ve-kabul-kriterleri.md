@@ -19,21 +19,24 @@ ZYGA'ya ait değişiklikler ZYGA deposunda yapılır. Bu depo plan ve karar kayd
 | Barkod temizliği: mükerrer, boş, yer tutucu barkod raporu → kullanıcıyla düzelt → `unique (org_id, barcode)` | Tekil barkod kısıtı |
 | ZYGA vitrin ürünlerini MarketFlow kataloğuna barkodlu ürün olarak aç ve bağla | Her aktif vitrin ürünü → MarketFlow ürünü |
 | `link_orders_to_products`: ad eşleşmesini stok için geçersiz say, "şüpheli" işaretle | Adla bağlanan satır stoğa dokunmaz |
-| idefix gerçek adet; Amazon zamanlanmış senkron + sayfalama + durum eşleme | Satır adedi ve durumu doğru |
-| **PTT API anahtarı yapısına geçiş** (Ekim sonu kapanıyor) | PTT senkronu kesintisiz |
+| idefix ve Hepsiburada ham durumu sakla (idefix adedi 1 kasıtlı: birim başına satır); Amazon zamanlanmış senkron + sayfalama + durum eşleme | Satır adedi ve durumu doğru |
+| **PTT API anahtarı yapısına geçiş** (yeni yapı Ekim sonu; eski yapının kapanışı duyurulacak) | PTT senkronu kesintisiz |
 | Rol tablosu + yetki fonksiyonu + davet akışı + üyelik tablosu izinleri | Depocu hesabı açılabilir |
 | Katalog/stok okumalarında sayfalama; tek `productMatchKey` | 1000 satır sınırında kayıp yok |
 | `VERI-KURALLARI.md`'ye "Depo ve ortak stok" bölümü (§1a-3 ve §2.2 değişiklikleri dahil) | Kural önce yazıldı |
 | Skill'lerin kurulumu, proje skill'i `depo-kurallari` | [07](07-skill-ve-promptlar.md) |
 
-**Kabul:**
-- [ ] Canlı ile depo migration'ları arasında şema farkı yok (şema karşılaştırması boş).
-- [ ] `select org_id, barcode, count(*) from products where barcode is not null group by org_id, barcode having count(*) > 1` → 0 satır.
-- [ ] Depoda takip edilecek bütün ürünlerin barkodu dolu.
-- [ ] Son 30 günde idefix satır adedi pazaryeri paneliyle birebir.
-- [ ] Amazon siparişleri cron ile geliyor; bir gün boyunca panel ile adet farkı 0.
-- [ ] PTT yeni yapıyla 48 saat hatasız senkron.
-- [ ] Depocu rolündeki test hesabı maliyet/kâr/fatura verisi **okuyamıyor** (RLS testi).
+**Kabul** (durum 2 Eki 2026 — kod yazıldı, canlıya alma onay bekliyor):
+- [x] Canlı şemanın anlık görüntüsü depoda, canlıyla md5 eşit. Kalan: yalnız canlıda olan 6
+      migration'ın MarketFlow `main`'ine push edilmesi (kullanıcıda).
+- [x] Normalleştirilmiş barkodla mükerrer → 0 satır (ölçüldü). Kısıt yazıldı ve testli;
+      canlıya uygulanması onay bekliyor.
+- [ ] Depoda takip edilecek bütün ürünlerin barkodu dolu — 5 barkodsuz ürün, kullanıcı kararı bekliyor.
+- [x] idefix: satır sayısı = birim sayısı (ölçüt düzeltildi; adet 1 kasıtlı). Ham durum saklanıyor (deploy bekliyor).
+- [ ] Amazon — kullanıcı bağlantıyı duraklattı; Faz 3'e taşındı.
+- [ ] PTT yeni yapıyla 48 saat hatasız senkron — PTT belgesi ve anahtar bekleniyor.
+- [x] Depocu rolündeki test hesabı maliyet/kâr/fatura verisi **okuyamıyor** (RLS testi, canlı
+      şema üzerinde PGlite'ta). Canlıda migration sonrası tekrar ölçülecek.
 
 ---
 
