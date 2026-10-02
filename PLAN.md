@@ -1,9 +1,9 @@
 # Depo Sistemi — Ana Plan
 
 > MarketFlow'a entegre, ortak stoklu, barkod ve el terminaliyle çalışan depo yönetim sistemi.
-> Durum: **Kararlar onaylandı (30 Eyl 2026). Faz 0 kodu yazıldı (2 Eki), canlıya alma onayı bekliyor.**
-> Açık bilgi maddeleri: [docs/08](docs/08-kararlar.md). Faz 0 raporu MarketFlow deposunda
-> (`docs/depo/FAZ0.md`).
+> Durum: **Kararlar onaylandı (30 Eyl 2026). Faz 0 ve Faz 1 kodu yazıldı ve ölçüldü (2 Eki);
+> canlıya alma onayı bekliyor.** Açık bilgi maddeleri: [docs/08](docs/08-kararlar.md).
+> Raporlar MarketFlow deposunda (`docs/depo/FAZ0.md`, `docs/depo/FAZ1.md`).
 > Tarih: 30 Eylül 2026.
 
 ---

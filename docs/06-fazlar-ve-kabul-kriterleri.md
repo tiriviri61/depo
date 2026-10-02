@@ -54,12 +54,17 @@ ZYGA'ya ait değişiklikler ZYGA deposunda yapılır. Bu depo plan ve karar kayd
 | Stok uyarılarını tek fonksiyona taşı (web + mobil) | Parite |
 | Bildirim bileşenini uygulama kabuğuna taşı | Kabuk |
 
-**Kabul:**
-- [ ] 10.000 hareketlik yük testinde bakiye = defter toplamı.
-- [ ] Aynı anahtarla 100 eşzamanlı çağrı → tek hareket.
-- [ ] Hareket satırı UPDATE/DELETE ile değiştirilemiyor (test).
-- [ ] Açılış sayımı tamamlanan ürünler "doğrulandı", kalanlar rozetli.
-- [ ] Ekranlar yükleniyor/boş/hata durumlarını ayrı gösteriyor; konsol temiz.
+**Kabul** (durum 2 Eki 2026 — kod yazıldı ve ölçüldü, canlıya alma onay bekliyor):
+- [x] 10.000 hareketlik yük testinde bakiye = defter toplamı.
+- [x] Aynı anahtarla 100 eşzamanlı çağrı → tek hareket (gerçek Postgres, 100 bağlantı).
+      Ölçüm sırasında bir yarış hatası bulundu ve düzeltildi: kilitsiz "oku → yaz" sayımı
+      eşzamanlı istekte iki kez yazıyordu. Kural: önce kilit, sonra oku.
+- [x] Hareket satırı UPDATE/DELETE ile değiştirilemiyor (test; süper kullanıcıya bile).
+- [x] Açılış sayımı tamamlanan ürünler "doğrulandı", kalanlar rozetli.
+- [x] Ekranlar yükleniyor/boş/hata durumlarını ayrı gösteriyor; konsol temiz.
+
+Ertelenen: ek barkodlar (Faz 4), kanal dağılımı ve satış hızı (Faz 2, depocu sipariş
+finansını göremediği için defterden gelecek), stok değeri metriği (Faz 7).
 
 ---
 
