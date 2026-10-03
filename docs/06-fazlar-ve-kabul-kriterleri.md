@@ -57,7 +57,7 @@ canlıda; web ekranları PR birleşince açılır):
 | Stok uyarılarını tek fonksiyona taşı (web + mobil) | Parite |
 | Bildirim bileşenini uygulama kabuğuna taşı | Kabuk |
 
-**Kabul** (durum 2 Eki 2026 — kod yazıldı ve ölçüldü, canlıya alma onay bekliyor):
+**Kabul** (durum 3 Eki 2026 — canlıda):
 - [x] 10.000 hareketlik yük testinde bakiye = defter toplamı.
 - [x] Aynı anahtarla 100 eşzamanlı çağrı → tek hareket (gerçek Postgres, 100 bağlantı).
       Ölçüm sırasında bir yarış hatası bulundu ve düzeltildi: kilitsiz "oku → yaz" sayımı
@@ -86,14 +86,25 @@ finansını göremediği için defterden gelecek), stok değeri metriği (Faz 7)
 | ZYGA: `marketflow_product_id` zorunlu, `zyga.stock` görünüm, rezervasyon → depo hareketi, vitrin siparişi → `orders` (`site`) | Vitrin ortak stokta |
 | Eşleşmeyenler ekranı | Web |
 
-**Kabul:**
-- [ ] Kullanıcının örneği test verisiyle: elde 5000; idefix 100, Amazon 100, Trendyol 200, PTT 100 → satılabilir **4500**; sevk sonrası elde 4500, ayrılmış 0.
-- [ ] Aynı satır 1000 kez aynı değerle yeniden yazıldığında hareket sayısı değişmiyor.
-- [ ] Teslim → iade → teslim salınımında hareket yok.
-- [ ] Ürün bağı X → boş → X (2 dk içinde) salınımında hareket yok.
-- [ ] Sevk öncesi iptal → ayırma geri bırakılıyor.
-- [ ] Vitrinde satılabilir 0 iken rezervasyon reddediliyor.
+**Kabul** (durum 3 Eki 2026 — motor canlıda, gölge modda; ZYGA ayrı alt faz 2b):
+- [x] Kullanıcının örneği test verisiyle: elde 5000; idefix 100, Amazon 100, Trendyol 200, PTT 100 → satılabilir **4500**; sevk sonrası elde 4500, ayrılmış 0.
+- [x] Aynı satır 1000 kez aynı değerle yeniden yazıldığında hareket sayısı değişmiyor.
+- [x] Teslim → iade → teslim salınımında hareket yok.
+- [x] Ürün bağı X → boş → X salınımında hareket yok (tolerans 30 dk).
+- [x] Sevk öncesi iptal → ayırma geri bırakılıyor.
+- [ ] Vitrinde satılabilir 0 iken rezervasyon reddediliyor. → **Faz 2b** (vitrin başka depoda ve canlı
+      ödeme akışında; ayrı PR ve ayrı onay).
 - [ ] **Gölge mod 7 gün:** gece mutabakat raporu her gün boş; günlük 5 ürünlük elle sayım farkı 0 (ya da açıklanmış).
+      3 Eki'de başladı. Önce açılış sayımı gerekiyor (elde o güne kadar bilinmiyor).
+
+Ölçümler: 67 SQL testi (stok sınıfı tablosu dahil); gerçek Postgres'te 3.000 satır, 10 senkron
+bağlantısı + işçi + gece turu aynı anda: hata 0, kilitlenme 0, bakiye = defter. Canlıda devreye alma:
+o anda hazırlanmakta olan 51 satır devralındı; ilk yarım saatte yeni siparişler kendiliğinden ayrıldı,
+kargoya çıkan 8 HB paketi bir dakika içinde stoktan düştü, bütünlük kontrolleri yeşil.
+
+Tasarımda değişen: HB durum kontrolü günde bir yerine saatlik (kargoya çıkan paket stoğa gün içinde
+yansısın). Ürün bağı salınımı toleransı 2 dk değil 30 dk: senkronun "önce yaz, sonra bağla" anı
+dakikalar sürebiliyor; bu sürede önceki ürünün etkisi korunur.
 
 ---
 
