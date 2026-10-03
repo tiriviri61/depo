@@ -86,14 +86,14 @@ finansını göremediği için defterden gelecek), stok değeri metriği (Faz 7)
 | ZYGA: `marketflow_product_id` zorunlu, `zyga.stock` görünüm, rezervasyon → depo hareketi, vitrin siparişi → `orders` (`site`) | Vitrin ortak stokta |
 | Eşleşmeyenler ekranı | Web |
 
-**Kabul** (durum 3 Eki 2026 — motor canlıda, gölge modda; ZYGA ayrı alt faz 2b):
+**Kabul** (durum 3 Eki 2026 — motor canlıda, gölge modda; ZYGA vitrini (alt faz 2b) canlıda):
 - [x] Kullanıcının örneği test verisiyle: elde 5000; idefix 100, Amazon 100, Trendyol 200, PTT 100 → satılabilir **4500**; sevk sonrası elde 4500, ayrılmış 0.
 - [x] Aynı satır 1000 kez aynı değerle yeniden yazıldığında hareket sayısı değişmiyor.
 - [x] Teslim → iade → teslim salınımında hareket yok.
 - [x] Ürün bağı X → boş → X salınımında hareket yok (tolerans 30 dk).
 - [x] Sevk öncesi iptal → ayırma geri bırakılıyor.
-- [ ] Vitrinde satılabilir 0 iken rezervasyon reddediliyor. → **Faz 2b** (vitrin başka depoda ve canlı
-      ödeme akışında; ayrı PR ve ayrı onay).
+- [x] Vitrinde satılabilir 0 iken rezervasyon reddediliyor. (**Faz 2b**, 3 Eki: gerçek Postgres'te
+      60 bağlantı aynı anda son 20 adede saldırdı → tam 20 ayrıldı, fazla satış yok.)
 - [ ] **Gölge mod 7 gün:** gece mutabakat raporu her gün boş; günlük 5 ürünlük elle sayım farkı 0 (ya da açıklanmış).
       3 Eki'de başladı. Önce açılış sayımı gerekiyor (elde o güne kadar bilinmiyor).
 
@@ -101,6 +101,19 @@ finansını göremediği için defterden gelecek), stok değeri metriği (Faz 7)
 bağlantısı + işçi + gece turu aynı anda: hata 0, kilitlenme 0, bakiye = defter. Canlıda devreye alma:
 o anda hazırlanmakta olan 51 satır devralındı; ilk yarım saatte yeni siparişler kendiliğinden ayrıldı,
 kargoya çıkan 8 HB paketi bir dakika içinde stoktan düştü, bütünlük kontrolleri yeşil.
+
+**Faz 2b — ZYGA vitrini ortak stokta (3 Eki 2026, canlıda).** Vitrin kendi stoğunu tutmuyor: vitrinin
+stok tablosu ortak stoğun görünümüne döndü (elde, bütün kanalların ayırdığı, satılabilir). Ürün satışa
+açılırken barkoduyla MarketFlow ürününe bağlanıyor. Vitrin yalnız sayılmış ürünü satıyor. Sepet ayırma
+kilit altında ortak satılabilire bakıp yetmezse reddediyor; rezervasyon, sipariş ve iade durumları aynı
+işlemde deftere hedef durumla yansıyor (ödenmiş sipariş kargoya verilene kadar ayrılmış, kargoda elde
+düşer). ZYGA paneli artık stok yazmıyor. Deftere yansıtılamayan değişim satışı durdurmuyor; kayda
+düşüyor, gece turu yeniden deniyor. Kalan: vitrin siparişinin sipariş tablosuna yansıması (kâr/rapor
+ekranları için) — ayrı iş.
+
+Canlıda bulunan hata (3 Eki, düzeltildi): sayımdan önce sevkle eksiye düşen üründe, eldeyi hiç
+değiştirmeyen yeni ayırma da "elde eksiye düşer" diye reddediliyordu. Kural doğru uygulanacak biçimde
+daraltıldı: yalnız eldeyi azaltan, sevk olmayan hareket eksiye inemez.
 
 Tasarımda değişen: HB durum kontrolü günde bir yerine saatlik (kargoya çıkan paket stoğa gün içinde
 yansısın). Ürün bağı salınımı toleransı 2 dk değil 30 dk: senkronun "önce yaz, sonra bağla" anı
