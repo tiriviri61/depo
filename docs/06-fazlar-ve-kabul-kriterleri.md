@@ -26,17 +26,20 @@ ZYGA'ya ait değişiklikler ZYGA deposunda yapılır. Bu depo plan ve karar kayd
 | `VERI-KURALLARI.md`'ye "Depo ve ortak stok" bölümü (§1a-3 ve §2.2 değişiklikleri dahil) | Kural önce yazıldı |
 | Skill'lerin kurulumu, proje skill'i `depo-kurallari` | [07](07-skill-ve-promptlar.md) |
 
-**Kabul** (durum 2 Eki 2026 — kod yazıldı, canlıya alma onay bekliyor):
-- [x] Canlı şemanın anlık görüntüsü depoda, canlıyla md5 eşit. Kalan: yalnız canlıda olan 6
-      migration'ın MarketFlow `main`'ine push edilmesi (kullanıcıda).
-- [x] Normalleştirilmiş barkodla mükerrer → 0 satır (ölçüldü). Kısıt yazıldı ve testli;
-      canlıya uygulanması onay bekliyor.
+**Kabul** (durum 3 Eki 2026 — migration'lar 2 Eki'de, edge function'lar 3 Eki'de kullanıcı onayıyla
+canlıda; web ekranları PR birleşince açılır):
+- [x] Canlı şemanın anlık görüntüsü depoda, canlıyla md5 eşit. Yalnız canlıda olan 6 migration
+      kullanıcı tarafından MarketFlow `main`'ine push edildi ve çalışma dalına birleştirildi.
+- [x] Normalleştirilmiş barkodla mükerrer → 0 satır (ölçüldü). Kısıt canlıda.
 - [ ] Depoda takip edilecek bütün ürünlerin barkodu dolu — 5 barkodsuz ürün, kullanıcı kararı bekliyor.
-- [x] idefix: satır sayısı = birim sayısı (ölçüt düzeltildi; adet 1 kasıtlı). Ham durum saklanıyor (deploy bekliyor).
+- [x] idefix: satır sayısı = birim sayısı (ölçüt düzeltildi; adet 1 kasıtlı). Ham durum canlıda saklanıyor
+      (idefix: sevkiyat + kalem durumu; Hepsiburada: paket durumu — HB kalem düzeyinde durum göndermiyor).
+      Ham yük `raw`'a izin listesiyle yazılır: pazaryerinin gönderdiği kişisel/finansal alanlar saklanmaz.
 - [ ] Amazon — kullanıcı bağlantıyı duraklattı; Faz 3'e taşındı.
 - [ ] PTT yeni yapıyla 48 saat hatasız senkron — PTT belgesi ve anahtar bekleniyor.
 - [x] Depocu rolündeki test hesabı maliyet/kâr/fatura verisi **okuyamıyor** (RLS testi, canlı
-      şema üzerinde PGlite'ta). Canlıda migration sonrası tekrar ölçülecek.
+      şema üzerinde PGlite'ta). Canlıda migration sonrası mevcut hesapların kendi verisinin tamamını
+      gördüğü ölçüldü; depocu hesabı ilk açıldığında canlıda da ölçülecek.
 
 ---
 
