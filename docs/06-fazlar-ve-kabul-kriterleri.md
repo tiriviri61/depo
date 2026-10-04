@@ -135,12 +135,32 @@ dakikalar sürebiliyor; bu sürede önceki ürünün etkisi korunur.
 | Trendyol webhook'u (yalnız ilgili siparişi çeken) | Gecikme ↓ |
 | `VERI-KURALLARI.md §2.2` "tavan 100" kaldırılır | Kural |
 
-**Kabul:**
+**Kabul** (durum 4 Eki 2026 — motor canlıda, altı kanal gölgede):
 - [ ] Her kanalda bir test ürününün stoğu değişince **2 dakika içinde** kanal paneli aynı sayıyı gösteriyor (geri okumayla doğrulandı).
-- [ ] 50 ardışık siparişte ürün başına en fazla 1-2 gönderim (birleştirme çalışıyor).
-- [ ] Bir kanalın API'si kapalıyken diğer kanallar etkilenmiyor; kapalı kanal açılınca kuyruk boşalıyor.
-- [ ] Doğrulanmamış ürün hiçbir kanala gönderilmiyor.
+      Canlıya geçişte, kanal kanal ölçülecek.
+- [x] 50 ardışık siparişte ürün başına en fazla 1-2 gönderim (birleştirme çalışıyor). Testte 50 sipariş → tek hesap, tek kayıt.
+- [x] Bir kanalın API'si kapalıyken diğer kanallar etkilenmiyor; kapalı kanal açılınca kuyruk boşalıyor.
+      Veritabanı testleri ve sahte API'li bağdaştırıcı testleriyle.
+- [x] Doğrulanmamış ürün hiçbir kanala gönderilmiyor. Hedef bile hesaplanmıyor; iş kanala alınırken yeniden denetleniyor.
 - [ ] Kanallar tek tek açıldı (düşük hacimliden başlayarak), her biri 48 saat izlendi.
+      En erken 10 Eki; sıra idefix → Hepsiburada → Trendyol, önce açılış sayımı.
+
+**Faz 3 — gölge modda canlı (4 Eki 2026).**
+- **Ne yapıyor:** motor her dakika, her kanal ilanı için "kanala ne giderdi"yi hesaplıyor ve fark raporu yazıyor. Kanala hiçbir şey göndermiyor.
+- **Hedef:** satılabilir − emniyet payı (2). Az stokta (5'in altı) yalnız ana kanal satar. Tavan 100, kanal canlıya alınınca kalkar. Sayılmamış ürün için hedef yok, 0 da gönderilmez.
+- **İlan eşlemesi:** önce barkod (kendiliğinden doğrulanır), sonra SKU eşleştirmesi. Yalnız SKU benzerliği "öneri"dir, onaylanmadan yayınlanmaz. Elle bağ senkronla değişmez.
+- **Birleştirme:** art arda gelen değişimler ürün başına tek hesapta birleşiyor (30 sn sakinlik, en geç 3 dk).
+- **Gönderim:** "istek kabul edildi" başarı sayılmıyor; sonuç geri okunuyor. Hata olursa artan beklemeyle yeniden deneniyor, 5. hatada alarm.
+- **Kanala yazma üç kapıdan geçiyor:**
+  - 7 gün gölge;
+  - o kanalın bağdaştırıcısı hazır;
+  - sahip ya da yönetici "Canlıya al" der.
+- **Acil durdurma:** tek anahtar.
+- **Hazır bağdaştırıcılar:** Trendyol, Hepsiburada, idefix. Yayın uçları canlıya geçiş adımında açılacak.
+- **Kalan:**
+  - PTT, Amazon ve Teknosa bağdaştırıcıları;
+  - Trendyol webhook'u;
+  - mobil anlık bildirim (bugünkü mobil bildirim altyapısı ayrıca onarılmalı; fazla satış şimdilik web bildirim merkezinde ve saatlik kontrolde).
 
 ---
 

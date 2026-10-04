@@ -3,9 +3,11 @@
 > MarketFlow'a entegre, ortak stoklu, barkod ve el terminaliyle çalışan depo yönetim sistemi.
 > Durum: **Kararlar onaylandı (30 Eyl 2026). Faz 0 ve Faz 1 veritabanında canlı (2–3 Eki; web ekranları
 > PR birleşince). Faz 2 sipariş motoru canlıda, gölge modda (3 Eki): siparişler ortak stoğu
-> düşürüyor, kanallara yazılmıyor. Faz 2b: ZYGA vitrini aynı ortak stoktan satıyor (3 Eki).**
+> düşürüyor, kanallara yazılmıyor. Faz 2b: ZYGA vitrini aynı ortak stoktan satıyor (3 Eki).
+> Faz 3 kanal yayını canlıda, gölge modda (4 Eki): kanala ne gideceği hesaplanıyor, hiçbir şey
+> yazılmıyor; kanal kanal canlıya geçiş en erken 10 Eki.**
 > Açık bilgi maddeleri: [docs/08](docs/08-kararlar.md). Raporlar MarketFlow deposunda
-> (`docs/depo/FAZ0.md`, `FAZ1.md`, `FAZ2.md`, `FAZ2B.md`).
+> (`docs/depo/FAZ0.md`, `FAZ1.md`, `FAZ2.md`, `FAZ2B.md`, `FAZ3.md`).
 > Tarih: 30 Eylül 2026.
 
 ---
