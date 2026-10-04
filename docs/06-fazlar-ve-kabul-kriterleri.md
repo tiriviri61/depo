@@ -174,10 +174,33 @@ dakikalar sürebiliyor; bu sürede önceki ürünün etkisi korunur.
 | Mal kabul ekranı (web): beklenen/sayılan/hasarlı, kolileme, onay | Web |
 | İthalat kaydından kabul fişi açma | Çalışma Alanı bağlantısı |
 
-**Kabul:**
+**Kabul** (durum 4 Eki 2026 — veritabanında canlı, web ekranı PR birleşince):
 - [ ] Basılan koli etiketi ZXing testinden ve gerçek terminal okuyucusundan geçiyor.
+      ZXing ✅: çizilen etiket ve gerçek tarayıcı çıktısı (203 dpi) okunuyor. Gerçek terminal ⏳ (kullanıcıda).
 - [ ] 5000 adetlik kabul, 100 koliyle 10 dakikanın altında tamamlanıyor (gerçek deneme).
-- [ ] Onaylanmış kabul değiştirilemiyor; düzeltme ters kayıtla.
+      Sunucu tarafı ✅: 5000 adet / 100 kolinin onayı 0,1–0,2 sn. Okuyucuyla gerçek deneme ⏳.
+- [x] Onaylanmış kabul değiştirilemiyor; düzeltme ters kayıtla. Fiş, satır ve okutmalar onaydan sonra
+      kilitli; yanlış kabul düzeltme hareketiyle düzeltiliyor, fiş iz olarak kalıyor.
+
+**Faz 4 — canlıda (4 Eki 2026).**
+- **Barkod türleri:** ürün barkodu, ek barkod (tedarikçi kutusundaki barkod; yalnız okutma, kanala ve
+  etikete gitmez), koli tipi (`KT-<ürün barkodu>-<iç adet>`), koli (`K` + yıl + 6 hane). Bir barkod
+  yalnız bir kayda ait olabilir; çakışma kayıtta reddediliyor, sonradan oluşursa saatlik kontrol yakalıyor.
+- **Koli stoğu ayrı sayı değil:** koli içindeki adetler ürünün elde stoğunun parçası. Koli açmak ya da
+  iptal etmek stok hareketi yazmıyor.
+- **Mal kabul:** fiş açılıyor (beklenen adetli ya da serbest; ithalat konteynerine bağlanabiliyor) →
+  okutma / adet girme / kolileme → tek işlemde onay. Onayda ürün başına tek stok hareketi; koliler depoya
+  giriyor. Aynı okutma iki kez gelse (ağ koptu, yeniden gönderildi) bir kez sayılıyor.
+- **Kabulle doğrulama:** henüz sayılmamış üründe ilk mal kabul açılış sayımı yerine geçebiliyor.
+- **Mevcut stoktan koli:** açılış sayımından sonra eldeki malı kolilemek; koliler eldeyi aşamıyor.
+- **Etiketler:** koli 100×100 / 100×150, koli tipi 100×50; tarayıcıdan ya da ZPL olarak.
+- **Eşzamanlılık (gerçek Postgres):** aynı fişi 20 bağlantı aynı anda onayladı → tam biri geçti; aynı
+  okutmaları 10 bağlantı yeniden yolladı → hiçbiri iki kez sayılmadı; 400 koli numarası tekil; elde 100'e
+  10 bağlantı 20'şerlik koli denedi → tam 5'i geçti.
+- **Tasarımda değişen:** kayıtlar silinmiyor. Fişten çıkarılan satır "çıkarıldı", kaldırılan ek barkod
+  "pasif" işaretleniyor (iz korunuyor).
+- **Ertelenen:** "İthalat kaydından kabul fişi açma" bağlantı olarak yapıldı (fiş konteynere bağlanıyor);
+  konteyner kaydından beklenen adetleri otomatik doldurma sonraya kaldı. Kayıp koli ve koli sayımı Faz 5, koli sevki Faz 6, lokasyon Faz 7.
 
 ---
 
