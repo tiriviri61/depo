@@ -216,10 +216,42 @@ dakikalar sürebiliyor; bu sürede önceki ürünün etkisi korunur.
 | Mobil: Menü → Depo ekranları (stok sorgu, hızlı sayım, onay) | Mobil parite |
 | Paket → sipariş satırı bağı; "etiket basıldı = çıktı" seçeneği | Kargo Hazırlık bağı |
 
-**Kabul:**
+**Kabul** (durum 4 Eki 2026 — veritabanında canlı, web ekranları PR birleşince):
 - [ ] Gerçek terminalde 100 koliyle deneme sevki: çift okutma reddi, geri al, eksik sevk uyarısı çalışıyor.
+      Gerçek tarayıcıda okuyucu taklidiyle ✅: 100 koli hazır, 99'u okutuldu (7 sn), çift okutma kırmızı ve
+      nedenli, geri al, "50 eksik" uyarısı, eksik sevk onayıyla tamamlandı, stok tek işlemde düştü.
+      Gerçek terminal ⏳ (kullanıcıda).
 - [ ] Wi-Fi 30 sn kesilip gelince hiçbir okutma kaybolmuyor, hiçbiri iki kez sayılmıyor.
-- [ ] Okuyucunun Enter'ı hiçbir durumda "tamamla"yı tetiklemiyor (test).
+      Benzetimle ✅: 31 sn kesikken 20 okutma cihazdaki kuyrukta bekledi (sayfa yenilense de), bağlantı
+      gelince hepsi gitti; yanıtı yolda kaybolan 3 istek yeniden gönderildi, hiçbiri iki kez sayılmadı.
+      Gerçek Wi-Fi'de deneme ⏳.
+- [x] Okuyucunun Enter'ı hiçbir durumda "tamamla"yı tetiklemiyor (test). Düğmede, onay penceresinde ve
+      odak kaçtığında Enter tamamlamıyor; yalnız dokunuş. Birim test + gerçek tarayıcı testi.
+
+**Faz 5 — canlıda (4 Eki 2026).**
+- **Terminal:** menüsüz `/terminal` adresi; büyük yazı ve düğmeler, depo ışığına uygun yüksek karşıtlıklı
+  açık tema (koyu seçenekli). Beş akış: mal kabul, sevk, sayım, iade, barkod sorgu.
+- **Okutma kaybolmuyor:** her okutma cihazda kalıcı bir kuyruğa yazılıyor ve sırayla gidiyor; bağlantı
+  koparsa "kuyruğa alındı" deyip bekliyor, gelince aynı kimlikle gönderiyor. Sunucu aynı okutmayı ikinci
+  kez saymıyor. Kuyrukta bekleyen varken "tamamla" kapalı.
+- **Geri bildirim:** kabul yeşil + kısa bip, uyarı turuncu + çift bip, ret tam ekran kırmızı + uzun ses ve
+  titreşim (dokunulana kadar kalıyor). Son okutma geri alınabiliyor.
+- **Sevk fişi:** taslak → onay (stok ayrılır, satılabilir düşer) → koli/ürün okutma → tamamla (stok
+  düşer, koliler "sevk edildi"); eksik sevk ayrı onayla; iptal ayrılanı bırakır. A4 sevk belgesi.
+  Bugün "serbest" sevk (alıcı adı); toptan siparişten sevk Faz 6.
+- **Dönemsel sayım:** fark, ürünün sayıma girdiği andaki stoğa göre (sayım sürerken satış durmuyor);
+  farkta sebep zorunlu; eşik (varsayılan 5) üstü fark yönetici onayına düşüyor; bir ürün aynı anda tek
+  sayımda. Koli okutulunca içeriği sayılıyor; kayıp koli bulunuyor, okutulmayanlar istenirse "kayıp".
+  Hızlı sayım (tek ürün) terminalde ve mobilde.
+- **İade okutma:** ürün barkodu, sipariş no ya da paket no ile; sağlam / hasarlı / eksik parça.
+- **Mobil:** Menü → Depo (stok sorgu, hızlı sayım, sayım onayı).
+- **Kargo Hazırlık:** toplama ekranı ek barkodu ve koli tipi barkodunu tanıyor. "Etiket basıldı = çıktı"
+  seçeneği hazır, **varsayılan kapalı** (açılırsa etiket basılan paket stoktan düşer; pazaryeri iptal
+  ederse geri gelir).
+- **Eşzamanlılık (gerçek Postgres):** aynı koli iki sevke aynı anda → tek sevke ayrıldı; aynı sevki 10
+  bağlantı tamamladı → tam biri geçti; okutma sürerken tamamlama → sonrakiler reddedildi; aynı ürün iki
+  sayıma → tek sayımda; aynı okutma 20 kez → bir kez sayıldı.
+- **Ertelenen:** 30 günlük iade raporu; lokasyon ve kamerayla okutma Faz 7.
 
 ---
 
