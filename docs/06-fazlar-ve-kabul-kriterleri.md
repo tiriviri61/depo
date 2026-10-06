@@ -266,11 +266,40 @@ dakikalar sürebiliyor; bu sürede önceki ürünün etkisi korunur.
 | Faturalar ekranında "Toptan" filtresi; raporlarda toptan kırılımı | Rapor |
 | *(6b, karara bağlı)* hafif cari ekstre + tahsilat bağlantısı | Ekstre |
 
-**Kabul:**
-- [ ] Toptan sipariş onayı satılabilir stoğu düşürüyor ve kanallara yansıyor.
-- [ ] Terminalle sevk tamamlanınca elde ve ayrılmış doğru düşüyor, koliler "sevk edildi".
-- [ ] Yüklenen fatura PDF'i siparişte görünüyor, yalnız yetkili rol açabiliyor (imzalı bağlantı).
-- [ ] Toptan satış pazaryeri cirosunu değiştirmiyor.
+**Kabul** (durum 5 Eki 2026 — veritabanında canlı, web ekranları PR birleşince):
+- [x] Toptan sipariş onayı satılabilir stoğu düşürüyor ve kanallara yansıyor. Onayda ürünler ayrılıyor,
+      satılabilir düşüyor, ürün kanal yayın sırasına giriyor (kanala yazma Faz 3'ün gölge modunda kapalı).
+- [x] Terminalle sevk tamamlanınca elde ve ayrılmış doğru düşüyor, koliler "sevk edildi". Eksik sevkte
+      kalan ayrılmış bırakılıyor, sipariş "eksik sevk edildi" oluyor.
+- [x] Yüklenen fatura PDF'i siparişte görünüyor, yalnız yetkili rol açabiliyor (imzalı bağlantı). Özel
+      kovada, kiracının klasöründe; yalnız toptan ya da finans yetkisi açıyor, bağlantı 60 sn geçerli.
+      Gerçek dosyayla canlı deneme ⏳ (kullanıcıda).
+- [x] Toptan satış pazaryeri cirosunu değiştirmiyor. Toptan satış pazaryeri siparişlerine yazılmıyor;
+      raporlarda ayrı "Toptan Satış" kırılımı.
+
+**Faz 6 — canlıda (5 Eki 2026).**
+- **Yeni yetki alanı "toptan":** satış yazar; muhasebe ve izleyici okur; depocu cariyi görmez (sevk
+  fişinde yalnız alıcı adı). Fatura ve ekstre toptan ya da finans yetkisiyle; tahsilat finans yetkisiyle.
+- **Cari:** tip, vergi no (VKN 10 / TCKN 11 hane, TCKN algoritmasıyla), sevk adresleri, yetkililer,
+  iskonto, vade, kredi limiti, para birimi. Vergi no kiracıda tekil; cari silinmiyor, pasife alınıyor.
+- **Toptan sipariş:** taslak → onay → terminalde sevk → fatura → tamamlandı; iptal. Satır adet ya da koli
+  olarak; fiyat KDV hariç, satır ve sipariş iskontosu, satır başına KDV. Onayda depoya "Toptan" sevk fişi
+  düşüyor; adet sonradan değişirse fark kadar ayrılıyor ya da bırakılıyor. Satılabilir yetmezse onay
+  reddedilmiyor, uyarı çıkıyor; yetersiz stokla onayı yalnız sahip/yönetici veriyor.
+- **Belgeler:** toplama listesi (önerilen koliler eskiden yeniye) ve firma adlı A4 sevk belgesi.
+- **Fatura kartı (C1):** fatura dış panelde kesiliyor; PDF/XML siparişe yükleniyor. XML tarayıcıda
+  okunup alanları dolduruyor; girilen tutar XML'le ve sevk edilen adetlerle karşılaştırılıyor, fark
+  uyarı olarak görünüyor. Aynı dosya iki kez eklenmiyor; kayıt ve dosyalar silinmiyor.
+- **Faturalar → Toptan** filtresi ve **Raporlar → Toptan Satış** kırılımı (CSV/PDF).
+- **6b hafif ekstre:** borç = satış faturaları (vade = fatura tarihi + vade günü), alacak = iade faturaları +
+  tahsilatlar; para birimi başına bakiye ve vadesi geçen. Tahsilat değişmiyor, iptal edilip yeniden giriliyor.
+- **Notion aktarımı:** müşteri ve tahsilat tabloları tek tuşla, önce önizlemeyle; tekrar basmak mükerrer
+  açmıyor. Canlıda henüz çalıştırılmadı (kullanıcıda).
+- **Eşzamanlılık (gerçek Postgres):** aynı sipariş aynı anda iki kez onaylanınca tek sevk fişi; aynı 100
+  adede iki 80'lik sipariş aynı anda → tam biri onaylandı; satışçı adet değiştirirken depocu okutup
+  tamamladı → kilitlenme yok, stok doğru; iptal ile okutma yarışı → ayrılmış kalmadı; aynı siparişe iki
+  satış faturası → tek fatura.
+- **Ertelenen:** e-Fatura mükellef sorgusu, ekstre PDF'i, kredi limiti uyarısı, otomatik kur.
 
 ---
 

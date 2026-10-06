@@ -8,9 +8,10 @@
 > yazılmıyor; kanal kanal canlıya geçiş en erken 10 Eki. Faz 4 (barkod, koli, etiket, mal kabul)
 > veritabanında canlı (4 Eki); gerçek terminal ve yazıcı denemesi bekleniyor. Faz 5 el terminali
 > (sevk, sayım, iade okutma, yerel kuyruk) veritabanında canlı (4 Eki); gerçek terminal ve Wi-Fi
-> denemesi bekleniyor.**
+> denemesi bekleniyor. Faz 6 (cari, toptan sipariş, fatura dosyası, hafif cari ekstre) veritabanında
+> canlı (5 Eki); gerçek veriyle ilk deneme ve Notion aktarımı kullanıcıda.**
 > Açık bilgi maddeleri: [docs/08](docs/08-kararlar.md). Raporlar MarketFlow deposunda
-> (`docs/depo/FAZ0.md`, `FAZ1.md`, `FAZ2.md`, `FAZ2B.md`, `FAZ3.md`, `FAZ4.md`, `FAZ5.md`).
+> (`docs/depo/FAZ0.md`, `FAZ1.md`, `FAZ2.md`, `FAZ2B.md`, `FAZ3.md`, `FAZ4.md`, `FAZ5.md`, `FAZ6.md`).
 > Tarih: 30 Eylül 2026.
 
 ---
