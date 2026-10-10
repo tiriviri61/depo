@@ -307,8 +307,8 @@ dakikalar sürebiliyor; bu sürede önceki ürünün etkisi korunur.
 
 | İş |
 |---|
-| Depo paneli: günlük giriş/çıkış, satış hızı, kaç günlük stok, sipariş önerisi (yeniden sipariş noktası) |
-| Stok değeri ve yaşlanma raporu |
+| Depo paneli: günlük giriş/çıkış, satış hızı, kaç günlük stok, sipariş önerisi (yeniden sipariş noktası) — ✅ canlıda (11 Eki, Depo → Stok → Panel; yalnız sayılmış ürünler) |
+| Stok değeri ve yaşlanma raporu — ✅ canlıda (11 Eki; maliyet olduğu için yalnız finans yetkisi, depocu görmez) |
 | *(karara bağlı)* Lokasyon/raf barkodları, yerleştirme ve toplama rotası |
 | *(karara bağlı)* Lot / son kullanma / seri no takibi |
 | Chrome uzantısında ortak stok rozeti |
